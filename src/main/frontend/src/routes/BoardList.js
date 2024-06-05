@@ -29,6 +29,10 @@ const BoardList = () => {
           // 4) map 함수로 데이터 출력
           <li key={board.idx}>
             <Link to={`/board/${board.idx}`}>{board.title}</Link>
+            <div>
+              <img src={`/CityImages/${board.image}`}
+              alt="게시글 이미지"/>
+            </div>
           </li>
         ))}
       </ul>

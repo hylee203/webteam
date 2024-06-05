@@ -19,9 +19,10 @@ public class FileUploadController {
     public String uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             // 저장할 경로 설정
-            String filePath = "src/main/resources/CityImages/" + file.getOriginalFilename();
+            String filePath = "src/main/frontend/public/CityImages/" + file.getOriginalFilename();
+            String fileName = file.getOriginalFilename();
             Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
-            return filePath; // 파일 경로 반환
+            return fileName; // 파일 경로 반환
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file", e);
         }
