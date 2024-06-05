@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import FileUpload from '../components/FileUpload'; // 파일 업로드 컴포넌트 import
 
 const BoardWrite = () => {
     const navigate = useNavigate();
@@ -9,13 +10,14 @@ const BoardWrite = () => {
         title: '',
         createdBy: '',
         contents: '',
-        city: 'Daejeon' // 기본 도시
+        city: 'Daejeon', // 기본 도시
+        image: '' // 이미지 경로
     });
 
-    const { title, createdBy, contents, city } = board; // 비구조화 할당
+    const { title, createdBy, contents, city, image } = board;
 
     const onChange = (event) => {
-        const { value, name } = event.target; // event.target에서 name과 value만 가져오기
+        const { value, name } = event.target;
         setBoard({
             ...board,
             [name]: value,
@@ -23,7 +25,7 @@ const BoardWrite = () => {
     };
 
     const saveBoard = async () => {
-        await axios.post(`http://localhost:8080/board`, board)
+        await axios.post('http://localhost:8080/board', board)
             .then((res) => {
                 alert('등록되었습니다.');
                 navigate('/board');
@@ -34,9 +36,15 @@ const BoardWrite = () => {
             });
     };
 
-
     const backToList = () => {
         navigate('/board');
+    };
+
+    const handleFileUpload = (filePath) => {
+        setBoard({
+            ...board,
+            image: filePath
+        });
     };
 
     return (
@@ -64,6 +72,11 @@ const BoardWrite = () => {
                     <option value="Ulsan">Ulsan</option>
                     <option value="Gwangju">Gwangju</option>
                 </select>
+            </div>
+            <br />
+            <div>
+                <span>이미지 업로드</span>
+                <FileUpload onFileUpload={handleFileUpload} />
             </div>
             <br />
             <div>

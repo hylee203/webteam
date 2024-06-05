@@ -9,6 +9,7 @@
         <result property="createdBy" column="CREATED_BY"/>
         <result property="city" column="CITY"/>
         <result property="likes" column="LIKES"/>
+        <result property="image" column="IMAGE"/> <!-- Added for image column -->
     </resultMap>
 
     <select id="getBoardList" parameterType="java.util.Map" resultMap="boardResultMap">
@@ -18,6 +19,7 @@
         , CREATED_BY
         , CITY
         , LIKES
+        , IMAGE  <!-- Added for image column -->
         FROM TB_BOARD
         WHERE 1=1
         <if test="sk != null and sk != ''">
@@ -54,11 +56,12 @@
 
     <select id="getBoardOne" parameterType="java.lang.Long" resultMap="boardResultMap">
         SELECT IDX
-             , TITLE
-             , CONTENTS
-             , CREATED_BY
-             , CITY
-             , LIKES
+        , TITLE
+        , CONTENTS
+        , CREATED_BY
+        , CITY
+        , LIKES
+        , IMAGE  <!-- Added for image column -->
         FROM TB_BOARD
         WHERE IDX = #{idx}
     </select>
@@ -66,28 +69,31 @@
     <insert id="insertBoard" parameterType="com.example.reactboard.db.BoardEntity" keyProperty="idx" useGeneratedKeys="true">
         INSERT INTO TB_BOARD
         (
-          TITLE
+        TITLE
         , CONTENTS
         , CREATED_BY
         , CITY
         , LIKES
+        , IMAGE  <!-- Added for image column -->
         )
         VALUES
-            (
-              #{title}
-            , #{contents}
-            , #{createdBy}
-            , #{city}
-            , #{likes}
-            )
+        (
+        #{title}
+        , #{contents}
+        , #{createdBy}
+        , #{city}
+        , #{likes}
+        , #{image}  <!-- Added for image column -->
+        )
     </insert>
 
     <update id="updateBoard" parameterType="com.example.reactboard.db.BoardEntity">
         UPDATE TB_BOARD
         SET TITLE = #{title}
-          , CONTENTS = #{contents}
-          , CITY = #{city}
-          , LIKES = #{likes}
+        , CONTENTS = #{contents}
+        , CITY = #{city}
+        , LIKES = #{likes}
+        , IMAGE = #{image}  <!-- Added for image column -->
         WHERE IDX = #{idx}
     </update>
 

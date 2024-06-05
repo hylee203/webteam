@@ -28,4 +28,5 @@ public class BoardEntity {
     private String createdBy;
     private String city;
     private Integer likes;
+    private String image;
 }

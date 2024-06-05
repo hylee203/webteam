@@ -17,6 +17,7 @@ public class BoardSaveDto {
     private String createdBy;
     private String city;
     private Integer likes;
+    private String image;
 
     public BoardEntity toEntity() {
         return BoardEntity.builder()
@@ -26,6 +27,7 @@ public class BoardSaveDto {
                 .createdBy(createdBy)
                 .city(city)
                 .likes(likes)
+                .image(image)
                 .build();
     }
 }
