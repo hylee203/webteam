@@ -1,0 +1,17 @@
+html {
+  background: linear-gradient(
+    270deg,
+    rgba(27, 93, 216, 0.432),
+    rgba(218, 56, 56, 0.315)
+  );
+}
+
+.flag-image {
+    width: 40px;
+    height: 50px;
+    transition: transform 0.8s; /* 회전효과 */
+  }
+  
+  .flag-image:hover {
+    transform: rotateY(180deg) scale(1.8); /* 마우스를 올렸을 때 회전*/
+  }

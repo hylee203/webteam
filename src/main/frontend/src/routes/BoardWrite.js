@@ -28,7 +28,7 @@ const BoardWrite = () => {
         await axios.post('http://localhost:8080/board', board)
             .then((res) => {
                 alert('등록되었습니다.');
-                navigate('/board');
+                navigate('/');
             })
             .catch((error) => {
                 console.error('Error while saving board:', error);
@@ -37,7 +37,7 @@ const BoardWrite = () => {
     };
 
     const backToList = () => {
-        navigate('/board');
+        navigate('/');
     };
 
     const handleFileUpload = (filePath) => {

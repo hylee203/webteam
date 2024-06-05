@@ -1,0 +1,45 @@
+
+#cities-info {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  #places {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px;
+    text-align: center;
+    list-style: none;
+  }
+  
+  .hot-place {
+    display: flex;
+    background-color: white;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+    text-align: left;
+    border: 1px solid rgba(141, 128, 86, 0.603);
+    transition: transform 0.5s ease-out;
+  }
+  .hot-place:hover {
+      box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.2);
+    transform: translate(20%, 20%) scale(1.25);
+  }
+
+  
+  .hot-place img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+  }
+  
+  .place-content {
+    padding: 25px;
+  }
+  
+  .place-contenct h2 {
+    margin: 0;
+  }
+  

@@ -13,13 +13,13 @@ const Board = ({ idx, title, contents, createdBy }) => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
       await axios.delete(`//localhost:8080/board/${idx}`).then((res) => {
         alert('삭제되었습니다.');
-        navigate('/board');
+        navigate('/');
       });
     }
   };
 
   const moveToList = () => {
-    navigate('/board');
+    navigate('/');
   };
 
   return (
@@ -33,7 +33,7 @@ const Board = ({ idx, title, contents, createdBy }) => {
       <div>
         <button onClick={moveToUpdate}>수정</button>
         <button onClick={deleteBoard}>삭제</button>
-        <button onClick={moveToList}>목록</button>
+        <button onClick={moveToList}>홈</button>
       </div>
     </div>
   );
