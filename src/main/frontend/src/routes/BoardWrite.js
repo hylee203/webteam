@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import FileUpload from '../components/FileUpload'; // 파일 업로드 컴포넌트 import
+import FileUpload from '../components/FileUpload';
+import '../styles/BoardWrite.css';
 
 const BoardWrite = () => {
     const navigate = useNavigate();
@@ -10,8 +11,9 @@ const BoardWrite = () => {
         title: '',
         createdBy: '',
         contents: '',
-        city: 'Daejeon', // 기본 도시
-        image: '' // 이미지 경로
+        city: 'Daejeon',
+        image: '',
+        likes: 0
     });
 
     const { title, createdBy, contents, city, image } = board;
@@ -48,22 +50,19 @@ const BoardWrite = () => {
     };
 
     return (
-        <div>
+        <div className="board-write-container">
             <div>
                 <span>제목</span>
                 <input type="text" name="title" value={title} onChange={onChange} />
             </div>
-            <br />
             <div>
                 <span>작성자</span>
                 <input type="text" name="createdBy" value={createdBy} onChange={onChange} />
             </div>
-            <br />
             <div>
                 <span>내용</span>
                 <textarea name="contents" cols="30" rows="10" value={contents} onChange={onChange}></textarea>
             </div>
-            <br />
             <div>
                 <span>도시</span>
                 <select name="city" value={city} onChange={onChange}>
@@ -73,12 +72,15 @@ const BoardWrite = () => {
                     <option value="Gwangju">Gwangju</option>
                 </select>
             </div>
-            <br />
-            <div>
+            <div className="file-upload">
                 <span>이미지 업로드</span>
                 <FileUpload onFileUpload={handleFileUpload} />
             </div>
-            <br />
+            {image && (
+                <div className="image-preview">
+                    <img src={image} alt="Uploaded" />
+                </div>
+            )}
             <div>
                 <button onClick={saveBoard}>저장</button>
                 <button onClick={backToList}>취소</button>

@@ -101,4 +101,10 @@
         DELETE FROM TB_BOARD
         WHERE IDX = #{idx}
     </delete>
+
+    <update id="updateLikes" parameterType="com.example.reactboard.db.BoardEntity">
+        UPDATE TB_BOARD
+        SET LIKES = LIKES + 1
+        WHERE IDX = #{idx}
+    </update>
 </mapper>

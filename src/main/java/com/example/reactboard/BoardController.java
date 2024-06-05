@@ -6,6 +6,9 @@ import com.example.reactboard.util.Header;
 import com.example.reactboard.util.Search;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -41,4 +44,10 @@ public class BoardController {
     Header<String> deleteBoard(@PathVariable Long idx) {
         return boardService.deleteBoard(idx);
     }
+
+    @PatchMapping("/board/like")
+    Header<String> updateLikes(@RequestBody BoardEntity boardEntity) {
+        return boardService.updateLikes(boardEntity);
+    }
+
 }

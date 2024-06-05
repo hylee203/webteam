@@ -1,6 +1,7 @@
 package com.example.reactboard.db;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface BoardMapper {
     int updateBoard(BoardEntity entity);
 
     int deleteBoard(Long idx);
+
+    int updateLikes(BoardEntity boardEntity);
 }

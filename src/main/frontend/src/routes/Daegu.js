@@ -17,6 +17,26 @@ const Daegu = () => {
         }
     };
 
+    const handleLike = async (idx) => {
+        try {
+            const resp = await axios.patch('//localhost:8080/board/like', { idx });
+            if (resp.data.result === 'success') {
+                // Update the local boardList to reflect the new likes count
+                const updatedList = boardList.map(board => {
+                    if (board.idx === idx) {
+                        board.likes++;
+                    }
+                    return board;
+                });
+                setBoardList(updatedList);
+            } else {
+                console.error('Failed to update likes');
+            }
+        } catch (error) {
+            console.error('Error updating likes:', error);
+        }
+    };
+
     const moveToWrite = () => {
         navigate('/write');
     };
@@ -25,21 +45,42 @@ const Daegu = () => {
         getBoardList(); // 게시글 목록 조회 함수 호출
     }, []);
 
+    // Sort boardList by likes in descending order and slice to get top 3
+    const sortedBoardList = [...boardList].sort((a, b) => b.likes - a.likes).slice(0, 3);
+
     return (
         <div>
             <ul id="places">
-                {boardList.map((board) => (
+                {sortedBoardList.map((board) => (
                     <li className="hot-place place" key={board.idx}>
-
                         <div>
                             <img src={`/CityImages/${board.image}`} alt="게시글 이미지" />
                         </div>
                         <div className="place-content">
                             <h2><Link to={`/board/${board.idx}`}>{board.title}</Link></h2>
                             <p>{board.contents}</p>
-                            <p>❤️ : {board.likes}</p>
+                            <button onClick={() => handleLike(board.idx)}>❤️</button>
+                            <p>{board.likes}</p>
                         </div>
                     </li>
+                ))}
+                {/* Render the rest of the boardList after the top 3 */}
+                {boardList.map((board) => (
+                    !sortedBoardList.includes(board) && (
+                        <li className="hot-place place" key={board.idx}>
+                            <div>
+                                <img src={`/CityImages/${board.image}`} alt="게시글 이미지" />
+                            </div>
+                            <div className="place-content">
+                                <h2><Link to={`/board/${board.idx}`}>{board.title}</Link></h2>
+                                <p>{board.contents}</p>
+                                <div id="like-container">
+                                <button onClick={() => handleLike(board.idx)}>❤️</button>
+                                <p>{board.likes}</p>
+                                </div>
+                            </div>
+                        </li>
+                    )
                 ))}
             </ul>
             <div>

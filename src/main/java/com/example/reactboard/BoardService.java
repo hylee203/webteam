@@ -69,4 +69,12 @@ public class BoardService {
             return Header.ERROR("ERROR");
         }
     }
+
+    Header<String> updateLikes(BoardEntity boardEntity) {
+        if (boardMapper.updateLikes(boardEntity) > 0) {
+            return Header.OK("success");
+        } else {
+            return Header.ERROR("failed");
+        }
+    }
 }
