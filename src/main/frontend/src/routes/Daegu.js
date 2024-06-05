@@ -49,6 +49,7 @@ const Daegu = () => {
     const sortedBoardList = [...boardList].sort((a, b) => b.likes - a.likes).slice(0, 3);
 
     return (
+        <>
         <div>
             <ul id="places">
                 {sortedBoardList.map((board) => (
@@ -74,20 +75,21 @@ const Daegu = () => {
                             <div className="place-content">
                                 <h2><Link to={`/board/${board.idx}`}>{board.title}</Link></h2>
                                 <p>{board.contents}</p>
-                                <div id="like-container">
-                                <button onClick={() => handleLike(board.idx)}>❤️</button>
-                                <p>{board.likes}</p>
+                                <div className="like-container">
+                                    <button onClick={() => handleLike(board.idx)}>❤️</button>
+                                    <p>{board.likes}</p>
                                 </div>
                             </div>
                         </li>
                     )
                 ))}
             </ul>
-            <div>
+            <div id="buttons">
                 <button><Link to="/">홈</Link></button>
                 <button onClick={moveToWrite}>글쓰기</button>
             </div>
         </div>
+        </>
     );
 };
 
