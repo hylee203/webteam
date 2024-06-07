@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.reactboard.db.BoardMapper">
+    <resultMap id="boardResultMap" type="com.example.reactboard.db.BoardEntity">
+        <id property="idx" column="IDX"/>
+        <result property="title" column="TITLE"/>
+        <result property="contents" column="CONTENTS"/>
+        <result property="createdBy" column="CREATED_BY"/>
+        <result property="city" column="CITY"/>
+        <result property="likes" column="LIKES"/>
+        <result property="image" column="IMAGE"/> <!-- Added for image column -->
+    </resultMap>
+
+    <select id="getBoardList" parameterType="java.util.Map" resultMap="boardResultMap">
+        SELECT IDX
+        , TITLE
+        , CONTENTS
+        , CREATED_BY
+        , CITY
+        , LIKES
+        , IMAGE  <!-- Added for image column -->
+        FROM TB_BOARD
+        WHERE 1=1
+        <if test="sk != null and sk != ''">
+            <if test="sk.equals('title')">
+                AND TITLE LIKE CONCAT('%', #{sv}, '%')
+            </if>
+            <if test="sk.equals('contents')">
+                AND CONTENTS LIKE CONCAT('%', #{sv}, '%')
+            </if>
+            <if test="sk.equals('createdBy')">
+                AND CREATED_BY LIKE CONCAT('%', #{sv}, '%')
+            </if>
+        </if>
+        ORDER BY IDX DESC
+        LIMIT #{page}, #{size}
+    </select>
+
+    <select id="getBoardTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(IDX)
+        FROM TB_BOARD
+        WHERE 1=1
+        <if test="sk != null and sk != ''">
+            <if test="sk.equals('title')">
+                AND TITLE LIKE CONCAT('%', #{sv}, '%')
+            </if>
+            <if test="sk.equals('contents')">
+                AND CONTENTS LIKE CONCAT('%', #{sv}, '%')
+            </if>
+            <if test="sk.equals('createdBy')">
+                AND CREATED_BY LIKE CONCAT('%', #{sv}, '%')
+            </if>
+        </if>
+    </select>
+
+    <select id="getBoardOne" parameterType="java.lang.Long" resultMap="boardResultMap">
+        SELECT IDX
+        , TITLE
+        , CONTENTS
+        , CREATED_BY
+        , CITY
+        , LIKES
+        , IMAGE  <!-- Added for image column -->
+        FROM TB_BOARD
+        WHERE IDX = #{idx}
+    </select>
+
+    <insert id="insertBoard" parameterType="com.example.reactboard.db.BoardEntity" keyProperty="idx" useGeneratedKeys="true">
+        INSERT INTO TB_BOARD
+        (
+        TITLE
+        , CONTENTS
+        , CREATED_BY
+        , CITY
+        , LIKES
+        , IMAGE  <!-- Added for image column -->
+        )
+        VALUES
+        (
+        #{title}
+        , #{contents}
+        , #{createdBy}
+        , #{city}
+        , #{likes}
+        , #{image}  <!-- Added for image column -->
+        )
+    </insert>
+
+    <update id="updateBoard" parameterType="com.example.reactboard.db.BoardEntity">
+        UPDATE TB_BOARD
+        SET TITLE = #{title}
+        , CONTENTS = #{contents}
+        , CITY = #{city}
+        , LIKES = #{likes}
+        , IMAGE = #{image}  <!-- Added for image column -->
+        WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteBoard" parameterType="java.lang.Long">
+        DELETE FROM TB_BOARD
+        WHERE IDX = #{idx}
+    </delete>
+
+    <update id="updateLikes" parameterType="com.example.reactboard.db.BoardEntity">
+        UPDATE TB_BOARD
+        SET LIKES = LIKES + 1
+        WHERE IDX = #{idx}
+    </update>
+</mapper>
