@@ -18,25 +18,50 @@ const Gwangju = () => {
     };
 
     const handleLike = async (idx) => {
+        const likedBoards = JSON.parse(localStorage.getItem('likedBoards')) || {};
+        if (likedBoards[idx]) {
+            alert('You have already liked this post.');
+            return;
+        }
+
         try {
+            // Optimistically update the UI
+            const updatedList = boardList.map(board => {
+                if (board.idx === idx) {
+                    return { ...board, likes: board.likes + 1 };
+                }
+                return board;
+            });
+            setBoardList(updatedList);
+
             const resp = await axios.patch('//localhost:8080/board/like', { idx });
             if (resp.data.result === 'success') {
-                // Update the local boardList to reflect the new likes count
-                const updatedList = boardList.map(board => {
+                // Store the liked board in localStorage
+                likedBoards[idx] = true;
+                localStorage.setItem('likedBoards', JSON.stringify(likedBoards));
+            } else {
+                // Revert the optimistic update if the server request fails
+                const revertedList = boardList.map(board => {
                     if (board.idx === idx) {
-                        board.likes++;
+                        return { ...board, likes: board.likes + 1 };
                     }
                     return board;
                 });
-                setBoardList(updatedList);
-            } else {
+                setBoardList(revertedList);
                 console.error('Failed to update likes');
             }
         } catch (error) {
+            // Revert the optimistic update if an error occurs
+            const revertedList = boardList.map(board => {
+                if (board.idx === idx) {
+                    return { ...board, likes: board.likes + 1 };
+                }
+                return board;
+            });
+            setBoardList(revertedList);
             console.error('Error updating likes:', error);
         }
     };
-
     const moveToWrite = () => {
         navigate('/write');
     };
